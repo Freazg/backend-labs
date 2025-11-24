@@ -66,4 +66,4 @@ docker run -it --rm --network=host -e PORT=8080 backend-labs:latest
 
 ## Деплой
 
-Застосунок задеплоєний на Render.com: [посилання буде додано після деплою]
+Застосунок задеплоєний на Render.com: https://backend-labs-lm1i.onrender.com
