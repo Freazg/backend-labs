@@ -67,3 +67,46 @@ docker run -it --rm --network=host -e PORT=8080 backend-labs:latest
 ## Деплой
 
 Застосунок задеплоєний на Render.com: https://backend-labs-lm1i.onrender.com
+
+## Lab 2: REST API для обліку витрат
+
+### Структура API
+
+API підтримує три основні сутності:
+- **Users** - користувачі системи
+- **Categories** - категорії витрат
+- **Records** - записи про витрати
+
+### Endpoints
+
+#### Users
+- `POST /user` - створення користувача
+- `GET /users` - отримання всіх користувачів
+- `GET /user/<user_id>` - отримання користувача за ID
+- `DELETE /user/<user_id>` - видалення користувача
+
+#### Categories
+- `POST /category` - створення категорії
+- `GET /category` - отримання всіх категорій
+- `DELETE /category/<category_id>` - видалення категорії
+
+#### Records
+- `POST /record` - створення запису витрат
+- `GET /record/<record_id>` - отримання запису за ID
+- `GET /record?user_id=X` - фільтрація записів за користувачем
+- `GET /record?category_id=X` - фільтрація записів за категорією
+- `GET /record?user_id=X&category_id=Y` - фільтрація за обома параметрами
+- `DELETE /record/<record_id>` - видалення запису
+
+### Postman Testing
+
+Колекція Postman з усіма запитами знаходиться в папці `postman/`:
+- `Backend_Labs_Expense_Tracker.postman_collection.json` - колекція запитів
+- `Local.postman_environment.json` - environment для локального тестування
+- `Production.postman_environment.json` - environment для production
+
+Для імпорту:
+1. Відкрийте Postman
+2. Collections → Import
+3. Виберіть файл колекції
+4. Environments → Import → виберіть environment файли
