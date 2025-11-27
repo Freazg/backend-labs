@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate, validates, ValidationError
+from marshmallow import Schema, fields, validate
 
 class CurrencySchema(Schema):
     id = fields.Int(dump_only=True)
@@ -8,7 +8,12 @@ class CurrencySchema(Schema):
 class UserSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str(required=True, validate=validate.Length(min=1, max=100))
+    password = fields.Str(required=True, load_only=True, validate=validate.Length(min=6))
     default_currency_id = fields.Int(required=False, allow_none=True)
+
+class UserLoginSchema(Schema):
+    name = fields.Str(required=True)
+    password = fields.Str(required=True)
 
 class CategorySchema(Schema):
     id = fields.Int(dump_only=True)

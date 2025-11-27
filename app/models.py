@@ -5,7 +5,7 @@ class Currency(db.Model):
     __tablename__ = 'currencies'
     
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(3), unique=True, nullable=False)  # USD, EUR, UAH
+    code = db.Column(db.String(3), unique=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     
     users = db.relationship('User', back_populates='default_currency')
@@ -16,8 +16,9 @@ class User(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+
     default_currency_id = db.Column(db.Integer, db.ForeignKey('currencies.id'), nullable=True)
-    
+    password = db.Column(db.String(255), nullable=True)
     default_currency = db.relationship('Currency', back_populates='users')
     records = db.relationship('Record', back_populates='user', cascade='all, delete-orphan')
 
