@@ -6,3 +6,4 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 API_TITLE = 'Expense Tracker API'
 API_VERSION = 'v1'
 OPENAPI_VERSION = '3.0.2'
+JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'dev-jwt-secret-key-for-testing-12345')

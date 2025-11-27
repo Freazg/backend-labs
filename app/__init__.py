@@ -12,8 +12,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('../config.py', silent=True)
     
-    # JWT Configuration
-    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-jwt-secret-key-change-in-production')
+    # JWT Configuration - Fixed key for development
+    app.config['JWT_SECRET_KEY'] = 'dev-jwt-secret-key-for-testing-12345'
     
     db.init_app(app)
     migrate.init_app(app, db)
