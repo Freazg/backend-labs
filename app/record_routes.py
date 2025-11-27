@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
 from app import db
 from app.models import Record, User, Category
 from app.schemas import RecordSchema
@@ -9,6 +10,7 @@ record_schema = RecordSchema()
 records_schema = RecordSchema(many=True)
 
 @bp.route('/record', methods=['GET'])
+@jwt_required()
 def get_records():
     user_id = request.args.get('user_id', type=int)
     category_id = request.args.get('category_id', type=int)
@@ -27,28 +29,27 @@ def get_records():
     return jsonify(records_schema.dump(records)), 200
 
 @bp.route('/record/<int:record_id>', methods=['GET'])
+@jwt_required()
 def get_record(record_id):
     record = Record.query.get_or_404(record_id, description='Record not found')
     return jsonify(record_schema.dump(record)), 200
 
 @bp.route('/record', methods=['POST'])
+@jwt_required()
 def create_record():
     try:
         data = record_schema.load(request.get_json())
     except ValidationError as err:
         return jsonify({'errors': err.messages}), 400
     
-    # Перевірка існування користувача
     user = User.query.get(data['user_id'])
     if not user:
         return jsonify({'error': 'User not found'}), 404
     
-    # Перевірка існування категорії
     category = Category.query.get(data['category_id'])
     if not category:
         return jsonify({'error': 'Category not found'}), 404
     
-    # Якщо currency_id не вказано, використовуємо валюту користувача за замовчуванням
     if 'currency_id' not in data or data['currency_id'] is None:
         data['currency_id'] = user.default_currency_id
     
@@ -59,6 +60,7 @@ def create_record():
     return jsonify(record_schema.dump(record)), 201
 
 @bp.route('/record/<int:record_id>', methods=['DELETE'])
+@jwt_required()
 def delete_record(record_id):
     record = Record.query.get_or_404(record_id, description='Record not found')
     db.session.delete(record)
