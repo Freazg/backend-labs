@@ -13,7 +13,7 @@ def create_app():
     app.config.from_pyfile('../config.py', silent=True)
     
     # JWT Configuration - Fixed key for development
-    app.config['JWT_SECRET_KEY'] = 'dev-jwt-secret-key-for-testing-12345'
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-jwt-secret-key-for-testing-12345')
     
     db.init_app(app)
     migrate.init_app(app, db)
